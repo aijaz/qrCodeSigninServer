@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="signindb" uuid="bf3fd03c-60b7-4a68-a39b-871c451a21cf">
+      <database-info product="PostgreSQL" version="12.3" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.5" dbms="POSTGRES" exact-version="12.3" exact-driver-version="42.2">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>signin</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database" qname="signindb" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,17 @@
+
+footer {
+	border-top: 1px solid #c0c0c0 !important;
+	margin-top: 6em;
+}
+
+label {
+	margin-top: 0.75em;
+	font-weight: bold;
+	display: block;
+}
+
+span.label_required {
+	color: red;
+	font-weight: lighter;
+	margin-left: 8pt;
+}

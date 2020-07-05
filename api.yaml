@@ -1,0 +1,253 @@
+openapi: '3.0.2'
+info:
+  title: "Masjid Backend"
+  description: "TODO: Fill this out"
+  version: "1.0"
+  termsOfService: "https://openweathermap.org/terms"
+  contact:
+    name: "Aijaz Ansari"
+    url: "https://masjiddefense.org/api"
+    email: "some_email@gmail.com"
+  license:
+    name: "CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)"
+    url: "https://openweathermap.org/price"
+servers:
+- url: https://demo.ikhlassecurity.com/api/v1.0
+security: 
+  - TokenHeader: []
+paths:
+  /login:
+    post:
+      security: []
+      tags: 
+      - auth
+      summary: "Log in to get an API token"
+      description: "Submit your email and password to get an API token"
+      requestBody:
+        $ref: '#/components/requestBodies/loginPayload'
+      responses:
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/loginResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+          
+  /logout:
+    post:
+      tags:
+      - auth
+      summary: "Log out"
+      description: "Log out by deleting your token off the server."
+      responses:
+        200: 
+          description: Success
+  /signins:
+    get:
+      tags:
+      - signins
+      summary: "Get signin info"
+      description: "Returns a list of signin objects sorted by signin ID descending."
+      parameters: 
+      - name: "less_than"
+        in: "query"
+        schema: 
+          type: integer
+        required: False
+        description: "Return signins with IDs less than this value."
+      - name: "return_count"
+        in: "query"
+        schema: 
+          type: integer
+          default: 100
+          minimum: 1
+          maximum: 100
+        required: False
+        description: "Return this many objects"
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/signin'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        503:
+          $ref: '#/components/responses/KeyFailure'
+          
+  /signin:
+    post:
+      tags:
+      - signins
+      description: "Create a new signin record"
+      requestBody:
+        $ref: '#/components/requestBodies/loginPayload'
+      responses:
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/signinResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        503:
+          $ref: '#/components/responses/KeyFailure'
+      
+components:
+
+  parameters:
+    zip:
+      name: zip
+      in: query
+      description: "**Zip code**. Search by zip code. *Example: 95050,us*. Please note that if the country is not specified, the search uses USA as a default."
+      schema:
+        type: string
+
+
+  schemas:
+          
+    'loginResponse': 
+      title: "Login Response"
+      description: "Payload of successful login"
+      type: object
+      properties:
+        admin: 
+          type: boolean
+          example: false
+          description: "True if this user is an admin. False otherwise"
+        login_id: 
+          type: integer
+          example: 1
+          description: "The login id for this user"
+        name: 
+          type: string
+          example: "Firstname Lastname"
+          description: "This user's name"
+        read_only: 
+          type: boolean
+          example: false
+          description: "True if this user has permissions to write to the database. False otherwise"
+        token:
+          type: string
+          example: 'dc19b0b2-c0e3-821b-821a-d49e8c428479'
+          description: "The API key that will be used to authenticate the user."
+          
+    'signin':
+      title: "Signin Object"
+      description: "Payload of signin object"
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 125
+          description: The record id
+        dt: 
+          type: number
+          example: 1593409124.23
+          description: The original scan time in number of seconds since 1/1/1970 (GMT)
+        name:
+          type: string
+          example: "John Q. Public"
+          description: "The person's name"
+        phone:
+          type: string
+          example: "(111)222-3333"
+          description: "The person's phone number"
+        email:
+          type: string
+          example: "jqp@example.com"
+          description: "The person's email"
+
+      required: ["name", "phone"]
+      
+    invalidToken: 
+      title: "Invalid Token"
+      description: "Invalid token"
+      type: object
+      properties: 
+        message:
+          type: string
+          example: "Login Failed"
+          
+    keyFailure:
+      title: "Key Failure"
+      description: "Key Failure"
+      type: object
+      properties: 
+        message:
+          type: string
+          example: "Key Failures"
+          
+    signinResponse:
+      title: "Signin Response"
+      description: "Response when you successfully create a signin record"
+      type: object
+      properties: 
+        result:
+          type: integer
+          example: 1
+          minimum: 1
+          maximum: 1
+          
+          
+  responses: 
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/invalidToken'  
+            
+    KeyFailure:
+      description: Key Failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/keyFailure'
+            
+    SigninResponse:
+      description: "The response that's sent when you successfully create a signin"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/signinResponse'
+            
+    
+  requestBodies:      
+    'loginPayload': 
+      description: "The login payload"
+      required: true
+      content:
+        'application/json':
+          schema:
+            title: Sample
+            type: object
+            properties:
+              email:
+                type: string
+                example: "aijaz@example.org"
+              password: 
+                type: string
+                example: "hunter2"
+              source: 
+                type: string
+                enum:
+                  - 'iOS'
+                  - 'android'
+                  - 'web'
+
+                  
+    
+
+  securitySchemes:
+    TokenHeader:
+      type: apiKey
+      description: Token to authorize requests. (For demo purposes, use `demo-token`.)
+      name: token
+      in: header

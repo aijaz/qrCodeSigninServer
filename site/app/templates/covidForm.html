@@ -1,0 +1,71 @@
+{% extends "basePublic.html" %}
+
+{% block title %} COVID-19 Contact Tracing {% endblock %}
+
+
+
+{% block page_content %}
+
+    <h1>Express Signup</h1>
+
+    <p>
+      If you would like to shorten the time it takes to enter the building, please fill out this form before
+        you enter the building.
+        We need your phone number and email so that we can contact you if someone at the building tests positive for COVID-19.
+        It's easiest if you fill out this form on your phone.
+    </p>
+
+    <p>When you submit this form, you will get a QR code image.
+        Please save this image onto your phone.
+        This QR code is customized for you so do not share it with anyone else.
+        Whenever you come to the building, show the image to the people checking you in.
+        They will scan it and get the information they need quickly, so you can enter quickly.
+    </p>
+
+<div class="container">
+      <a name="form"></a>
+      <form method="POST" action="/" class="form" role="form" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+
+          <div class="row form-group">
+            <div class="col-md-4">
+              <label for="name">Your Name<span class="label_required">*</span></label>
+            </div>
+            <div class="col-md-4">
+              <input class="form-control" id="name" name="name" required type="text" size=30 {% if form.name.data %}value="{{ form.name.data }}"{% endif %}>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-4">
+              <label for="phone_number">Your Phone Number<span class="label_required">*</span></label>
+            </div>
+            <div class="col-md-4">
+              <input class="form-control" id="phone_number" name="phone_number" required type="text" size=30 {% if form.phone_number.data %}value="{{ form.phone_number.data }}"{% endif %}>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-4">
+              <label for="email">Your Email Address</label>
+            </div>
+            <div class="col-md-4">
+              <input class="form-control" id="email" name="email" type="text" size=30 {% if form.email.data %}value="{{ form.email.data }}"{% endif %}>
+            </div>
+          </div>
+
+
+         <p>If you currently have any COVID symptoms, please do not come to the building until you're symptom free for 72 hours.</p>
+         <p>If if you have tested positive for COVID-19, please do not come to the building until you're symptom free for 14 days.</p>
+
+          <div class="row form-group">
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+
+</div>
+
+
+{% endblock %}
