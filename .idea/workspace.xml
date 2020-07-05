@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="247de9f5-2e6b-4da3-ad11-d6fffe8aeac9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf/storage_v2/_src_/database/signindb.oBuYEg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf/storage_v2/_src_/database/signindb.oBuYEg/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf/storage_v2/_src_/database/signindb.oBuYEg/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf/storage_v2/_src_/database/signindb.oBuYEg/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bf3fd03c-60b7-4a68-a39b-871c451a21cf/storage_v2/_src_/database/signindb.oBuYEg/schema/public.abK9xQ.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/qrCodeSigninServer.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/app/templates/covidForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/app/templates/covidForm.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +51,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1593930032047</updated>
-      <workItem from="1593930033591" duration="57000" />
+      <workItem from="1593930033591" duration="131000" />
+      <workItem from="1593930192398" duration="50000" />
     </task>
     <servers />
   </component>
@@ -76,8 +64,24 @@
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
     <state x="946" y="471" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3008.1669@0.23.3008.1669" timestamp="1593930090207" />
+    <state width="2737" height="443" key="GridCell.Tab.0.bottom" timestamp="1593930178067">
+      <screen x="0" y="23" width="3008" height="1669" />
+    </state>
+    <state width="2737" height="443" key="GridCell.Tab.0.bottom/0.23.3008.1669@0.23.3008.1669" timestamp="1593930178067" />
+    <state width="2737" height="443" key="GridCell.Tab.0.center" timestamp="1593930178066">
+      <screen x="0" y="23" width="3008" height="1669" />
+    </state>
+    <state width="2737" height="443" key="GridCell.Tab.0.center/0.23.3008.1669@0.23.3008.1669" timestamp="1593930178066" />
+    <state width="2737" height="443" key="GridCell.Tab.0.left" timestamp="1593930178066">
+      <screen x="0" y="23" width="3008" height="1669" />
+    </state>
+    <state width="2737" height="443" key="GridCell.Tab.0.left/0.23.3008.1669@0.23.3008.1669" timestamp="1593930178066" />
+    <state width="2737" height="443" key="GridCell.Tab.0.right" timestamp="1593930178066">
+      <screen x="0" y="23" width="3008" height="1669" />
+    </state>
+    <state width="2737" height="443" key="GridCell.Tab.0.right/0.23.3008.1669@0.23.3008.1669" timestamp="1593930178066" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask__wsgi_py_.coverage" NAME="Flask (wsgi.py) Coverage Results" MODIFIED="1593930094211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
+    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask__wsgi_py_.coverage" NAME="Flask (wsgi.py) Coverage Results" MODIFIED="1593930197540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
   </component>
 </project>
