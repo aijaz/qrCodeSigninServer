@@ -1,6 +1,6 @@
 # QR Code Signin Server
 
-Backend for the signin iOS and Android apps
+Backend for the COVID-19 contact tracing signin iOS and Android apps
 
 # What _is_ this repo?
 
