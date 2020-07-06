@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="247de9f5-2e6b-4da3-ad11-d6fffe8aeac9" name="Default Changelist" comment="">
+    <list default="true" id="4dd34ff1-bb52-4c2d-9d48-4477232e6333" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oldidea/qrCodeSigninServer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/qrCodeSigninServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/qrCodeSigninServer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/site/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,31 +17,43 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1eFvD8JwsIeehW81z92OiGoQwMu" />
+  <component name="ProjectId" id="1eKnwaS4dRITX24xANHYxW67VGD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RunManager">
-    <configuration name="Flask (wsgi.py)" type="Python.FlaskServer" nameIsGenerated="true">
+    <configuration name="Flask" type="Python.FlaskServer" nameIsGenerated="true">
       <option name="flaskDebug" value="true" />
       <module name="qrCodeSigninServer" />
       <option name="target" value="$PROJECT_DIR$/site/wsgi.py" />
       <option name="targetType" value="PATH" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/usr/local/bin/python" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/site" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Python.FlaskServer">
+      <option name="flaskDebug" value="true" />
+      <module name="qrCodeSigninServer" />
+      <option name="target" value="$PROJECT_DIR$/site/wsgi.py" />
+      <option name="targetType" value="PATH" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/site" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -53,13 +68,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="247de9f5-2e6b-4da3-ad11-d6fffe8aeac9" name="Default Changelist" comment="" />
-      <created>1593930032047</created>
+      <changelist id="4dd34ff1-bb52-4c2d-9d48-4477232e6333" name="Default Changelist" comment="" />
+      <created>1594079390664</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1593930032047</updated>
-      <workItem from="1593930033591" duration="131000" />
-      <workItem from="1593930192398" duration="1976000" />
+      <updated>1594079390664</updated>
+      <workItem from="1594079391889" duration="310000" />
+      <workItem from="1594079739982" duration="97000" />
     </task>
     <servers />
   </component>
@@ -67,32 +82,32 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="946" y="471" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593930090207">
+    <state x="833" y="643" key="#SQL_Dialects" timestamp="1594079828468">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state x="946" y="471" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3008.1669@0.23.3008.1669" timestamp="1593930090207" />
-    <state width="2737" height="443" key="GridCell.Tab.0.bottom" timestamp="1593995563339">
+    <state x="833" y="643" key="#SQL_Dialects/0.23.3008.1669@0.23.3008.1669" timestamp="1594079828468" />
+    <state x="949" y="383" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594079803333">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.bottom/0.23.3008.1669@0.23.3008.1669" timestamp="1593995563339" />
-    <state width="2737" height="443" key="GridCell.Tab.0.center" timestamp="1593995563339">
+    <state x="949" y="383" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3008.1669@0.23.3008.1669" timestamp="1594079803333" />
+    <state width="2737" height="443" key="GridCell.Tab.0.bottom" timestamp="1594079836375">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.center/0.23.3008.1669@0.23.3008.1669" timestamp="1593995563339" />
-    <state width="2737" height="443" key="GridCell.Tab.0.left" timestamp="1593995563339">
+    <state width="2737" height="443" key="GridCell.Tab.0.bottom/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836375" />
+    <state width="2737" height="443" key="GridCell.Tab.0.center" timestamp="1594079836374">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.left/0.23.3008.1669@0.23.3008.1669" timestamp="1593995563339" />
-    <state width="2737" height="443" key="GridCell.Tab.0.right" timestamp="1593995563339">
+    <state width="2737" height="443" key="GridCell.Tab.0.center/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836374" />
+    <state width="2737" height="443" key="GridCell.Tab.0.left" timestamp="1594079836374">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.right/0.23.3008.1669@0.23.3008.1669" timestamp="1593995563339" />
-    <state x="1146" y="400" width="670" height="676" key="search.everywhere.popup" timestamp="1593994007240">
+    <state width="2737" height="443" key="GridCell.Tab.0.left/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836374" />
+    <state width="2737" height="443" key="GridCell.Tab.0.right" timestamp="1594079836375">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state x="1146" y="400" width="670" height="676" key="search.everywhere.popup/0.23.3008.1669@0.23.3008.1669" timestamp="1593994007240" />
+    <state width="2737" height="443" key="GridCell.Tab.0.right/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836375" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask__wsgi_py_.coverage" NAME="Flask (wsgi.py) Coverage Results" MODIFIED="1593978197926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
+    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1594079743956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
   </component>
 </project>
