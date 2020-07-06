@@ -6,15 +6,17 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     # These are some variables you may want to customize
+    BIN_DIR = "/usr/bin"
+    DB_HOST_NAME = "localhost"
+
+    # You probably don't need to change any of these variables
     DB_DB_NAME = "signindb"
     DB_USER_NAME = "signin"
-    DB_HOST_NAME = "localhost"
     PASSWORD_FILE = os.path.join(basedir, 'passwords.json')
     passwords = json.loads(open(PASSWORD_FILE).read())
     SECRET_KEY = passwords["secret_key"]
     DB_KEY = passwords["db_key"]
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024
-    BIN_DIR = "/usr/bin"
     QRCODE_WORKING_DIR = os.path.join(basedir, 'qrcode')
     template_folder = "app/templates"
     static_folder = "app/static"
