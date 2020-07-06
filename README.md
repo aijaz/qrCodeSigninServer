@@ -8,7 +8,7 @@ As Director of Security at my local masjid (mosque), I wanted a quick, secure, a
 
 This repo allows people to visit a website before attending. They can enter their name, phone number, and email on a form. When they submit the form, the website will generate an image containing a QR Code that contains that information. Then they can save that image on their phone. 
 
-There's a companion iOS app at github.com/aijaz/masjidSignin and an Android app that's currently in development. The people at the masjid signing folks in can scan the QR code using those apps. Once a QR code is signed, the mobile client will contact the REST web server described and this repo, and the web server will save the data into the database. More information on how to use the apps will be available soon.
+There's a companion [iOS app][iosApp] and an Android app that's currently in development. The people at the masjid signing folks in can scan the QR code using those apps. Once a QR code is signed, the mobile client will contact the REST web server described and this repo, and the web server will save the data into the database. More information on how to use the apps will be available soon.
 
 # Requirements
 
@@ -112,5 +112,6 @@ Coming soon
 [Flask]: https://palletsprojects.com/p/flask/
 [flaskTutorial]: https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04
 [ImageMagick]: https://imagemagick.org
+[iosApp]: https://github.com/aijaz/masjidSignin
 
 
