@@ -128,6 +128,7 @@ def add_user():
     row = cur.fetchone()
     cur.close()
 
+    row["email"] = email
     return jsonify(row)
 
 
@@ -142,7 +143,8 @@ def delete_user(p_id):
         return unauthorized()
 
     cur.execute("update team_member set password = %s where id = %s", ('', p_id))
-    cur.execute("delete from forgot_message where id = %s", (p_id,))
+    cur.execute("delete from forgot_message where team_member_id = %s", (p_id,))
+    cur.execute("delete from team_member_auth_token where team_member_id = %s", (p_id,))
     cur.close()
 
     return jsonify("")
