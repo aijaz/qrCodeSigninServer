@@ -10,6 +10,13 @@ This repo allows people to visit a website before attending. They can enter thei
 
 There's a companion [iOS app][iosApp] and an Android app that's currently in development. The people at the masjid signing folks in can scan the QR code using those apps. Once a QR code is signed, the mobile client will contact the REST web server described and this repo, and the web server will save the data into the database. More information on how to use the apps will be available soon.
 
+# API Documentation
+
+A copy of the API is hosted at [SwaggerHub][]. You can find the documentation for this API at the following locations:
+
+- [Documentation with navigation and YAML file][doc1]
+- [Documentation withoug navigation][doc2]
+
 # Requirements
 
 - PostgreSQL
@@ -105,7 +112,7 @@ Thanks!
 
 Aijaz.
 
-# Installation Docker
+# Installation via Docker
 
 Coming soon
 
@@ -113,5 +120,8 @@ Coming soon
 [flaskTutorial]: https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-18-04
 [ImageMagick]: https://imagemagick.org
 [iosApp]: https://github.com/aijaz/masjidSignin
+[SwaggerHub]: https://app.swaggerhub.com/home
+[doc1]: https://app.swaggerhub.com/apis/aijaz/QRCodeSigninServer/1.0
+[doc2]: https://app.swaggerhub.com/apis-docs/aijaz/QRCodeSigninServer/1.0
 
 
