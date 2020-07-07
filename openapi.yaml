@@ -7,7 +7,6 @@ info:
 servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/aijaz/QRCodeSigninServer/1.0
-  - url: https://demo.ikhlassecurity.com/api/v1.0
 security: 
   - TokenHeader: []
 tags: 
@@ -519,12 +518,9 @@ components:
                 description: Not used in this version of the API. For future use.
 
 
-                  
-    
-
   securitySchemes:
     TokenHeader:
       type: apiKey
-      description: Token to authorize requests. (For demo purposes, use `demo-token`.)
+      description: Token to authorize requests.
       name: token
       in: header
