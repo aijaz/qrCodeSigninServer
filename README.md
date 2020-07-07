@@ -15,7 +15,7 @@ There's a companion [iOS app][iosApp] and an Android app that's currently in dev
 A copy of the API is hosted at [SwaggerHub][]. You can find the documentation for this API at the following locations:
 
 - [Documentation with navigation and YAML file][doc1]
-- [Documentation withoug navigation][doc2]
+- [Documentation without navigation][doc2]
 
 # Requirements
 
