@@ -101,6 +101,7 @@ def request_password_reset():
     if row is None:
         return unauthorized()
 
+    row["email"] = email
     return jsonify(row)
 
 

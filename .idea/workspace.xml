@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dd34ff1-bb52-4c2d-9d48-4477232e6333" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/oldidea/qrCodeSigninServer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/qrCodeSigninServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/qrCodeSigninServer.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/app/api_1_0/authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/site/app/api_1_0/authentication.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +25,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RunManager">
     <configuration name="Flask" type="Python.FlaskServer" nameIsGenerated="true">
@@ -75,6 +78,7 @@
       <updated>1594079390664</updated>
       <workItem from="1594079391889" duration="310000" />
       <workItem from="1594079739982" duration="97000" />
+      <workItem from="1594079904094" duration="3237000" />
     </task>
     <servers />
   </component>
@@ -90,24 +94,24 @@
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
     <state x="949" y="383" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.3008.1669@0.23.3008.1669" timestamp="1594079803333" />
-    <state width="2737" height="443" key="GridCell.Tab.0.bottom" timestamp="1594079836375">
+    <state width="2089" height="443" key="GridCell.Tab.0.bottom" timestamp="1594094050820">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.bottom/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836375" />
-    <state width="2737" height="443" key="GridCell.Tab.0.center" timestamp="1594079836374">
+    <state width="2089" height="443" key="GridCell.Tab.0.bottom/0.23.3008.1669@0.23.3008.1669" timestamp="1594094050820" />
+    <state width="2089" height="443" key="GridCell.Tab.0.center" timestamp="1594094050819">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.center/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836374" />
-    <state width="2737" height="443" key="GridCell.Tab.0.left" timestamp="1594079836374">
+    <state width="2089" height="443" key="GridCell.Tab.0.center/0.23.3008.1669@0.23.3008.1669" timestamp="1594094050819" />
+    <state width="2089" height="443" key="GridCell.Tab.0.left" timestamp="1594094050819">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.left/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836374" />
-    <state width="2737" height="443" key="GridCell.Tab.0.right" timestamp="1594079836375">
+    <state width="2089" height="443" key="GridCell.Tab.0.left/0.23.3008.1669@0.23.3008.1669" timestamp="1594094050819" />
+    <state width="2089" height="443" key="GridCell.Tab.0.right" timestamp="1594094050820">
       <screen x="0" y="23" width="3008" height="1669" />
     </state>
-    <state width="2737" height="443" key="GridCell.Tab.0.right/0.23.3008.1669@0.23.3008.1669" timestamp="1594079836375" />
+    <state width="2089" height="443" key="GridCell.Tab.0.right/0.23.3008.1669@0.23.3008.1669" timestamp="1594094050820" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1594079743956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
+    <SUITE FILE_PATH="coverage/qrCodeSigninServer$Flask.coverage" NAME="Flask Coverage Results" MODIFIED="1594079905197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/site" />
   </component>
 </project>

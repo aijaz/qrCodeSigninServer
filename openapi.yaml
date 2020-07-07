@@ -1,18 +1,13 @@
-openapi: '3.0.2'
+openapi: 3.0.0
 info:
-  title: "Masjid Backend"
-  description: "TODO: Fill this out"
-  version: "1.0"
-  termsOfService: "https://openweathermap.org/terms"
-  contact:
-    name: "Aijaz Ansari"
-    url: "https://masjiddefense.org/api"
-    email: "some_email@gmail.com"
-  license:
-    name: "CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)"
-    url: "https://openweathermap.org/price"
+  version: '1.0'
+  title: API for the COVID-19 Tracking QR Code Signin Server
+  description: This is the API for the COVID-19 Contact Tracing QRCode Signin Server
+# Added by API Auto Mocking Plugin
 servers:
-- url: https://demo.ikhlassecurity.com/api/v1.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/aijaz/QRCodeSigninServer/1.0
+  - url: https://demo.ikhlassecurity.com/api/v1.0
 security: 
   - TokenHeader: []
 paths:
@@ -98,6 +93,63 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         503:
           $ref: '#/components/responses/KeyFailure'
+          
+  /verifyPasswordChange:
+    post:
+      tags: 
+      - password
+      summary: "Used for resetting your password when you forgot it"
+      description: >
+        Another endpoint will generate a password reset code for you. You should 
+        use the client app to submit the reset code along with the new password
+        to change your password.
+      requestBody:
+        $ref: '#/components/requestBodies/passwordResetPayload'
+      responses: 
+        200: 
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+      
+  /changePassword:
+    post:
+      tags: 
+      - password
+      summary: "Used for changing your password"
+      description: "Pass in your old password and your new password"
+      requestBody:
+        $ref: '#/components/requestBodies/changePasswordPayload'
+      responses: 
+        200: 
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+      
+  /requestPasswordReset:
+    post:
+      tags: 
+      - password
+      summary: "Used for requesting a password reset code"
+      description: >
+        The admin should run this on behalf of a user who forgot their password. 
+        The API will generate a password reset code which the admin should
+        then provide to the user. The user can use their client to reset their
+        password. Normally the password reset code is mailed to the user,
+        but I didn't want to do this in this case because I didn't want to 
+        introduce the complicated dependency of having an SMTP server just for
+        this purpose. Doing it this way makes it easy for people to adopt this 
+        API.
+      requestBody:
+        $ref: '#/components/requestBodies/requestPasswordResetPayload'
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/requestPasswordResetResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
       
 components:
 
@@ -194,6 +246,19 @@ components:
           example: 1
           minimum: 1
           maximum: 1
+    requestPasswordResetResponse:
+      title: "Request Password Reset Response"
+      description: "This object contains the password reset code for the user"
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@example.com"
+          description: "The user's email address"
+        guid: 
+          type: string
+          example: "d5e53b3a-ffc1-4436-b085-04aaed5ec861"
+          description: "The password reset code"
           
           
   responses: 
@@ -241,6 +306,53 @@ components:
                   - 'iOS'
                   - 'android'
                   - 'web'
+    passwordResetPayload:
+      description: "Password Reset Payload"
+      required: true
+      content:
+        'application/json': 
+          schema: 
+            title: Sample
+            type: object
+            properties:
+              guid: 
+                type: string
+                example: "d5e53b3a-ffc1-4436-b085-04aaed5ec861"
+                description: "The password reset code"
+              password: 
+                type: string
+                example: "hunter3"
+                description: "The new password"
+    changePasswordPayload:
+      description: "Change Password Payload"
+      required: true
+      content:
+        'application/json': 
+          schema: 
+            title: Sample
+            type: object
+            properties:
+              old_password: 
+                type: string
+                example: "hunter3"
+                description: "The old (current) password"
+              password: 
+                type: string
+                example: "hunter4"
+                description: "The new password"
+    requestPasswordResetPayload:
+      description: "Request Password Reset Payload"
+      required: true
+      content:
+        'application/json': 
+          schema: 
+            title: Sample
+            type: object
+            properties:
+              email: 
+                type: string
+                example: "user@example.com"
+                description: "The user whose password you want to reset"
 
                   
     
