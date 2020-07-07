@@ -10,12 +10,21 @@ servers:
   - url: https://demo.ikhlassecurity.com/api/v1.0
 security: 
   - TokenHeader: []
+tags: 
+  - name: Authentication
+    description: Authentication-related endpoints
+  - name: Attendees signins
+    description: Endpoints related to attendees signing in on the premises
+  - name: Passwords
+    description: Endpoints related to changing and resetting passwords
+  - name: Team Members
+    description: Endpoints related to team member user accounts
 paths:
   /login:
     post:
       security: []
       tags: 
-      - auth
+      - Authentication
       summary: "Log in to get an API token"
       description: "Submit your email and password to get an API token"
       requestBody:
@@ -33,7 +42,7 @@ paths:
   /logout:
     post:
       tags:
-      - auth
+      - Authentication
       summary: "Log out"
       description: "Log out by deleting your token off the server."
       responses:
@@ -42,7 +51,7 @@ paths:
   /signins:
     get:
       tags:
-      - signins
+      - Attendees signins
       summary: "Get signin info"
       description: "Returns a list of signin objects sorted by signin ID descending."
       parameters: 
@@ -78,7 +87,7 @@ paths:
   /signin:
     post:
       tags:
-      - signins
+      - Attendees signins
       description: "Create a new signin record"
       requestBody:
         $ref: '#/components/requestBodies/loginPayload'
@@ -97,7 +106,7 @@ paths:
   /verifyPasswordChange:
     post:
       tags: 
-      - password
+      - Passwords
       summary: "Used for resetting your password when you forgot it"
       description: >
         Another endpoint will generate a password reset code for you. You should 
@@ -114,7 +123,7 @@ paths:
   /changePassword:
     post:
       tags: 
-      - password
+      - Passwords
       summary: "Used for changing your password"
       description: "Pass in your old password and your new password"
       requestBody:
@@ -128,7 +137,7 @@ paths:
   /requestPasswordReset:
     post:
       tags: 
-      - password
+      - Passwords
       summary: "Used for requesting a password reset code"
       description: >
         The admin should run this on behalf of a user who forgot their password. 
@@ -150,6 +159,92 @@ paths:
                 $ref: '#/components/schemas/requestPasswordResetResponse'
         401:
           $ref: '#/components/responses/Unauthorized'
+
+  /user:
+    post:
+      tags:
+      - Team Members
+      summary: Create a user
+      description: Use this endpoint to create a team member (user) record
+      requestBody:
+        $ref: '#/components/requestBodies/createUserPayload'
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/createUserResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+  /user/{userId}:
+    delete:
+      tags:
+        - Team Members
+      summary: Delete a team member's user record
+      description: >
+        To preserve referential integrity in the database, the user account 
+        will not be deleted from the database. Rather, the password will be
+        set to the empty string, effectively preventing that user from logging
+        in. Furthermore, all active sessions for that user will be deleted, as will
+        any password reset tokens. 
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: 
+            type: integer
+            example: 1
+          description: The ID of the user record to be deleted.
+      responses: 
+        200: 
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      tags:
+        - Team Members
+      summary: Retrieve the information associated with a team member's user record
+      description: >
+        Retrieve the information associated with a user's account
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: 
+            type: integer
+            example: 1
+          description: The ID of the user record to be retrieved.
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/userRecord'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+  /users:
+    get:
+      tags:
+        - Team Members
+      summary: Retrieve the information associated with all team members' user records
+      description: >
+        Retrieve the information associated with all team members' user records
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/userRecord'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+
+
+
       
 components:
 
@@ -259,7 +354,48 @@ components:
           type: string
           example: "d5e53b3a-ffc1-4436-b085-04aaed5ec861"
           description: "The password reset code"
-          
+    createUserResponse: 
+      title: The object that's returned when a user record is created.
+      description: The object that's returned when a user record is created.
+      type: object
+      properties:
+        email:
+          type: string
+          example: "user@example.com"
+          description: "The user's email address"
+        guid: 
+          type: string
+          example: "d5e53b3a-ffc1-4436-b085-04aaed5ec861"
+          description: "The user's password reset code"
+    userRecord:
+      title: A team member user record
+      description: A team member user record
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: "The id of the user's record"
+        name: 
+          type: string
+          example: John Doe
+          description: The user's name
+        email:
+          type: string
+          example: "user@example.com"
+          description: "The user's email address"
+        admin: 
+          type: boolean
+          example: true
+          description: >
+           If the user has admin privileges then the user will be able to create password
+           reset requests on behalf of other users, and will also be able to view and edit 
+           the data of other users.
+        read_only: 
+          type: boolean
+          example: false
+          description: Not used in this version of the API. For future use.
+
           
   responses: 
     Unauthorized:
@@ -353,6 +489,35 @@ components:
                 type: string
                 example: "user@example.com"
                 description: "The user whose password you want to reset"
+    createUserPayload:
+      description: "Create User Payload"
+      required: true
+      content:
+        'application/json': 
+          schema: 
+            title: Sample
+            type: object
+            properties:
+              email: 
+                type: string
+                example: "user@example.com"
+                description: "The email address of the user record you want to create"
+              name: 
+                type: string
+                example: "Jane Doe"
+                description: "The name of the user record you want to create"
+              admin: 
+                type: boolean
+                example: true
+                description: >
+                 If the user has admin privileges then the user will be able to create password
+                 reset requests on behalf of other users, and will also be able to view and edit 
+                 the data of other users.
+              read_only: 
+                type: boolean
+                example: false
+                description: Not used in this version of the API. For future use.
+
 
                   
     
