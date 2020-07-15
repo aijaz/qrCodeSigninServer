@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
-  version: '1.0'
+  version: "1.1"
   title: API for the COVID-19 Tracking QR Code Signin Server.
   description: This is the API for the COVID-19 Contact Tracing QRCode Signin Server
 # Added by API Auto Mocking Plugin
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/aijaz/QRCodeSigninServer/1.0
+    url: https://virtserver.swaggerhub.com/aijaz/QRCodeSigninServer/1.1
 security: 
   - TokenHeader: []
 tags: 
@@ -89,7 +89,7 @@ paths:
       - Attendees signins
       description: "Create a new signin record"
       requestBody:
-        $ref: '#/components/requestBodies/loginPayload'
+        $ref: '#/components/requestBodies/signinPayload'
       responses:
         200: 
           description: Success
@@ -102,6 +102,75 @@ paths:
         503:
           $ref: '#/components/responses/KeyFailure'
           
+  /signin/{signinId}:
+    get:
+      tags:
+        - Attendees signins
+      summary: Retrieve the information associated with a signin record
+      description: >
+        Retrieve the information associated with a signin record
+      parameters:
+        - in: path
+          name: signinId
+          required: true
+          schema: 
+            type: integer
+            example: 1
+          description: The ID of the signin record to be retrieved.
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/signin'
+        401:
+          $ref: '#/components/responses/Unauthorized'       
+    put:
+      tags:
+        - Attendees signins
+      summary: Update a signin record
+      description: >
+        Update a signin record
+      parameters:
+        - in: path
+          name: signinId
+          required: true
+          schema: 
+            type: integer
+            example: 1
+          description: The ID of the signin record to be retrieved.
+      requestBody:
+        $ref: '#/components/requestBodies/signinPayload'
+      responses: 
+        200: 
+          description: Success
+          content:
+            'application/json': 
+              schema:
+                $ref: '#/components/schemas/userRecord'
+        401:
+          $ref: '#/components/responses/Unauthorized'       
+    delete:
+      tags:
+        - Attendees signins
+      summary: Delete a signin record
+      description: >
+        Delete a signin record      
+      parameters:
+        - in: path
+          name: signinId
+          required: true
+          schema: 
+            type: integer
+            example: 1
+          description: The ID of the signin record to be deleted.
+      responses: 
+        200: 
+          description: Success
+        401:
+          $ref: '#/components/responses/Unauthorized'
+
   /verifyPasswordChange:
     post:
       tags: 
@@ -248,12 +317,12 @@ paths:
 components:
 
   parameters:
-    zip:
-      name: zip
+    signinId:
+      name: id
       in: query
-      description: "**Zip code**. Search by zip code. *Example: 95050,us*. Please note that if the country is not specified, the search uses USA as a default."
+      description: Signin ID
       schema:
-        type: string
+        type: integer
 
 
   schemas:
@@ -419,7 +488,13 @@ components:
             $ref: '#/components/schemas/signinResponse'
             
     
-  requestBodies:      
+  requestBodies:     
+    'signinPayload': 
+      content: 
+        'application/json':
+          schema:
+            $ref: '#/components/schemas/signin'
+    
     'loginPayload': 
       description: "The login payload"
       required: true
@@ -524,3 +599,4 @@ components:
       description: Token to authorize requests.
       name: token
       in: header
+      

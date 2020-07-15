@@ -136,6 +136,24 @@ end;
     $$ LANGUAGE plpgsql;
 
 
+CREATE or replace function f_covid_signin_update(
+    p_id integer
+  , p_name varchar
+  , p_phone varchar
+  , p_email varchar
+  , p_key varchar
+) returns text as $$
+BEGIN
+        UPDATE covid_signin_sheet set
+         name = pgp_sym_encrypt(p_name, p_key)
+         , phone =  pgp_sym_encrypt(p_phone, p_key)
+         , email = pgp_sym_encrypt(p_email, p_key)
+         where id = p_id
+    );
+    return '1';
+end;
+    $$ LANGUAGE plpgsql;
+
 
 
 
