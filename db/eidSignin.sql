@@ -158,7 +158,17 @@ BEGIN
 end;
     $$ LANGUAGE plpgsql;
 
-
+create or replace function f_available_slots_report() returns table (event_id integer, slots_available bigint) as $$
+    BEGIN
+        return query
+            select s.event_id
+                 , count(*) as slots_available
+            from event_slot s
+            where reservation_id is null
+            group by s.event_id
+            order by s.event_id;
+    end;
+    $$ LANGUAGE plpgsql;
 
 -- create or replace function f_release_expired_event_slot_holds() returns void as $$
 --     BEGIN
