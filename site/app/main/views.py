@@ -7,6 +7,9 @@ import random
 
 from . import main
 from .forms import CovidContactForm, EventReservationForm
+from reportlab.lib.pagesizes import letter, A4
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Image
 
 
 @main.route('/eid', methods=['POST', 'GET'])
@@ -54,9 +57,10 @@ def handle_successful_reservation(hash, slots):
     qrcode_file_name = uuid_str + ".name.png"
     qrcode_file_final = uuid_str + ".final.png"
     qrcode_file_warn = uuid_str + ".warn.png"
-    redirect_url = "/covidImage/{0}".format(the_uuid)
     api_version = "3"
     qrcode_string = "+".join([api_version, the_uuid])
+    pdf_file = uuid_str + ".pdf"
+    redirect_url = "/eventPDF/{0}".format(the_uuid)
 
     hash["event_name"] = ""
     for slot in slots:
@@ -118,9 +122,17 @@ def handle_successful_reservation(hash, slots):
                         """text 40, {1} '{0}'""".format(hash["event_name"], first_y),
                         qrcode_file_final])
 
+        myCanvas = canvas.Canvas(pdf_file, pagesize=letter)
+        myCanvas.drawString(100, 100, hash["event_name"])
+        myCanvas.drawImage(image=qrcode_file_final, x=120, y=200)
+        myCanvas.showPage()
+        myCanvas.save()
+
+
+
     subprocess.run(
         ["/bin/rm", qrcode_file, qrcode_file_resized, qrcode_file_grown, qrcode_file_composite, qrcode_file_name,
-         qrcode_file_warn])
+         qrcode_file_warn, qrcode_file_final])
     return redirect(redirect_url)
 
 def handle_eid_form(form, cur, key):
@@ -289,6 +301,19 @@ def covid_image(the_uuid):
             io.BytesIO(image.read()),
             attachment_filename=response_file,
             mimetype='image/png'
+        )
+
+@main.route('/eventPDF/<the_uuid>', methods=['GET'])
+def event_pdf(the_uuid):
+    uuid_str = "/tmp/" + the_uuid
+    qrcode_file_final = uuid_str + ".pdf"
+    response_file = the_uuid + ".pdf"
+
+    with open(qrcode_file_final, 'rb') as image:
+        return send_file(
+            io.BytesIO(image.read()),
+            attachment_filename=response_file,
+            mimetype='application/pdf'
         )
 
 
