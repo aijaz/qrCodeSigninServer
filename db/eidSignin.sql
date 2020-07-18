@@ -102,7 +102,6 @@ CREATE or replace function f_reserve_slots(
 DECLARE
     num_slots_available INTEGER;
     v_reservation_id text;
-    next_available_slot_id INTEGER;
 BEGIN
 
     -- lock table
@@ -158,14 +157,17 @@ BEGIN
 end;
     $$ LANGUAGE plpgsql;
 
-create or replace function f_available_slots_report() returns table (event_id integer, slots_available bigint) as $$
+create or replace function f_available_slots_report() returns table (event_id integer, event_name text, slots_available bigint) as $$
     BEGIN
         return query
             select s.event_id
+                 , e.name
                  , count(*) as slots_available
             from event_slot s
+            join event e on s.event_id = e.id
             where reservation_id is null
             group by s.event_id
+                   , e.name
             order by s.event_id;
     end;
     $$ LANGUAGE plpgsql;
