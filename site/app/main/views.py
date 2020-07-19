@@ -7,10 +7,10 @@ import random
 
 from . import main
 from .forms import CovidContactForm, EventReservationForm
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.pdfgen import canvas
-from reportlab.platypus import Image
-
+# from reportlab.lib.pagesizes import letter, A4
+# from reportlab.pdfgen import canvas
+# from reportlab.platypus import Image
+#
 
 @main.route('/eid', methods=['POST', 'GET'])
 def eid_reservation():
@@ -59,8 +59,7 @@ def handle_successful_reservation(hash, slots):
     qrcode_file_warn = uuid_str + ".warn.png"
     api_version = "3"
     qrcode_string = "+".join([api_version, the_uuid])
-    pdf_file = uuid_str + ".pdf"
-    redirect_url = "/eventPDF/{0}".format(the_uuid)
+    redirect_url = "/eventImage/{0}".format(the_uuid)
 
     hash["event_name"] = ""
     for slot in slots:
@@ -69,25 +68,25 @@ def handle_successful_reservation(hash, slots):
             break
 
 
-    first_y = 450
+    first_y = 750
     delta_y = 17
 
-    name_x = 40
-    name_y = 350
+    name_x = 90
+    name_y = 620
 
-    name_width = 370 - (name_x * 2)
-    name_height = 80
+    name_width = 700 - (name_x * 2)
+    name_height = 120
 
     with open(qrcode_file, "w") as file:
         subprocess.run(["qr", qrcode_string], stdout=file)
-        subprocess.run([convert_path, qrcode_file, '-resize', "370x370", qrcode_file_resized])
+        subprocess.run([convert_path, qrcode_file, '-resize', "700x700", qrcode_file_resized])
         subprocess.run(
-            [convert_path, qrcode_file_resized, '-resize', "370x580", '-extent', "370x580", qrcode_file_grown])
-        subprocess.run([composite_path
-                           , '-geometry', '+270+430'
-                           , '{0}/logo.png'.format(working_dir)
-                           , qrcode_file_grown
-                           , qrcode_file_composite])
+            [convert_path, qrcode_file_resized, '-resize', "700x920", '-extent', "700x920", qrcode_file_grown])
+        # subprocess.run([composite_path
+        #                    , '-geometry', '+550+800'
+        #                    , '{0}/logo.png'.format(working_dir)
+        #                    , qrcode_file_grown
+        #                    , qrcode_file_composite])
 
         # create name image
         subprocess.run([convert_path,
@@ -95,44 +94,66 @@ def handle_successful_reservation(hash, slots):
                         working_dir + "/MontserratBlack-ZVK6J.otf",
                         '-size',
                         '{0}x{1}'.format(name_width, name_height),
-                        """caption:{0}_{1}""".format(the_uuid, num_slots),
+                        """caption:{0}""".format(hash["event_name"], num_slots),
                         qrcode_file_name])
         subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y), qrcode_file_name,
+                        qrcode_file_grown, qrcode_file_composite])
+
+        subprocess.run([convert_path,
+                        '-font',
+                        working_dir + "/MontserratBlack-ZVK6J.otf",
+                        '-size',
+                        '{0}x{1}'.format(name_width, name_height),
+                        """caption:{0} spot{1} reserved""".format(num_slots, "s" if num_slots != 1 else ""),
+                        qrcode_file_name])
+        subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y+100), qrcode_file_name,
                         qrcode_file_composite, qrcode_file_composite])
 
         subprocess.run([convert_path,
                         '-font',
                         working_dir + "/MontserratLight-6YemM.otf",
                         '-size',
-                        '{0}x{1}'.format(name_width, 60),
-                        """caption:{0}""".format(
-                            "This is your personal QR Code. " +
-                            "Please save it, and do not share it with anyone. " +
-                            "Present it to Security when you visit the building."),
+                        '{0}x{1}'.format(name_width, 100),
+                        """caption:{0} {1}""".format(
+                            "This is your personal receipt. " +
+                            "Please save it or print it, and do not share it with anyone. " +
+                            "Present it to Security when you visit the building. Ticket #: ", the_uuid),
                         qrcode_file_warn])
+
         subprocess.run(
             [composite_path, '-geometry', '+{0}+{1}'.format(name_x, first_y + (3 * delta_y)), qrcode_file_warn,
              qrcode_file_composite, qrcode_file_composite])
 
-        subprocess.run([convert_path,
-                        qrcode_file_composite,
-                        '-font',
-                        working_dir + "/MontserratBold-p781R.otf",
-                        '-draw',
-                        """text 40, {1} '{0}'""".format(hash["event_name"], first_y),
-                        qrcode_file_final])
 
-        myCanvas = canvas.Canvas(pdf_file, pagesize=letter)
-        myCanvas.drawString(100, 100, hash["event_name"])
-        myCanvas.drawImage(image=qrcode_file_final, x=120, y=200)
-        myCanvas.showPage()
-        myCanvas.save()
+
+        subprocess.run([convert_path,
+                        '-font',
+                        working_dir + "/MontserratLight-6YemM.otf",
+                        '-size',
+                        '{0}x{1}'.format(name_width, 42),
+                        """caption:{0}""".format(
+                            "Masjid Ikhlas Eid Prayers. July 31, 2020"),
+                        qrcode_file_warn])
+
+        subprocess.run(
+            [composite_path, '-geometry', '+{0}+{1}'.format(name_x, 44), qrcode_file_warn,
+             qrcode_file_composite, qrcode_file_composite])
+
+
+        subprocess.run([composite_path
+                           , '-geometry', '+10+10'
+                           , '{0}/logo.png'.format(working_dir)
+                           , qrcode_file_composite
+                           , qrcode_file_final])
+
+
+
 
 
 
     subprocess.run(
         ["/bin/rm", qrcode_file, qrcode_file_resized, qrcode_file_grown, qrcode_file_composite, qrcode_file_name,
-         qrcode_file_warn, qrcode_file_final])
+         qrcode_file_warn])
     return redirect(redirect_url)
 
 def handle_eid_form(form, cur, key):
@@ -292,6 +313,19 @@ def contact_trace():
 
 @main.route('/covidImage/<the_uuid>', methods=['GET'])
 def covid_image(the_uuid):
+    uuid_str = "/tmp/" + the_uuid
+    qrcode_file_final = uuid_str + ".final.png"
+    response_file = the_uuid + ".png"
+
+    with open(qrcode_file_final, 'rb') as image:
+        return send_file(
+            io.BytesIO(image.read()),
+            attachment_filename=response_file,
+            mimetype='image/png'
+        )
+
+@main.route('/eventImage/<the_uuid>', methods=['GET'])
+def event_image(the_uuid):
     uuid_str = "/tmp/" + the_uuid
     qrcode_file_final = uuid_str + ".final.png"
     response_file = the_uuid + ".png"
