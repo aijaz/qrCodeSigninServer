@@ -25,6 +25,7 @@ CREATE TABLE event_slot
       event_id int not null references event(id)
     , slot_id int not null
     , reservation_id text null references reservation(id)
+    , sex t_sex not null
     , primary key (event_id, slot_id)
 );
 CREATE index i_event_slot_reservation on event_slot(reservation_id);
@@ -47,6 +48,7 @@ end;
 
 CREATE or replace function f_add_slots(
     p_event_id integer
+  , p_sex t_sex
   , p_num_slots integer
 ) returns int as $$
 DECLARE
@@ -58,9 +60,11 @@ BEGIN
          insert into event_slot(
                                 event_id
                                 , slot_id
+                                , sex
                                 )
             select p_event_id
                  , gen_slot_id
+                 , p_sex
             from slot_ids;
     return p_num_slots;
 end;
@@ -86,13 +90,16 @@ $$ LANGUAGE plpgsql;
 
 CREATE TYPE t_reservation_result_type AS ENUM (
     'success'
-    , 'too_many_slots_requested'
-    , 'not_enough_slots_available'
+    , 'too_many_m_slots_requested'
+    , 'too_many_f_slots_requested'
+    , 'not_enough_m_slots_available'
+    , 'not_enough_f_slots_available'
     );
 
 CREATE or replace function f_reserve_slots(
     p_event_id integer
-  , p_num_slots integer
+  , p_num_m_slots integer
+  , p_num_f_slots integer
   , p_name varchar
   , p_phone varchar
   , p_email varchar
@@ -112,17 +119,38 @@ BEGIN
     INTO num_slots_available
     from event_slot
     where event_slot.event_id = p_event_id
+      and sex = 'M'
       and event_slot.reservation_id is null;
 
-    IF p_max_slots_reservable < p_num_slots THEN
-        return QUERY SELECT 'too_many_slots_requested'::t_reservation_result_type, null;
+    IF p_max_slots_reservable < p_num_m_slots THEN
+        return QUERY SELECT 'too_many_m_slots_requested'::t_reservation_result_type, null;
         return;
     END IF;
 
-    IF num_slots_available < p_num_slots THEN
-        return QUERY SELECT 'not_enough_slots_available'::t_reservation_result_type, null;
+    IF num_slots_available < p_num_m_slots THEN
+        return QUERY SELECT 'not_enough_m_slots_available'::t_reservation_result_type, null;
         return;
     END IF;
+
+    SELECT COUNT(*)
+    INTO num_slots_available
+    from event_slot
+    where event_slot.event_id = p_event_id
+      and sex = 'F'
+      and event_slot.reservation_id is null;
+
+    IF p_max_slots_reservable < p_num_f_slots THEN
+        return QUERY SELECT 'too_many_f_slots_requested'::t_reservation_result_type, null;
+        return;
+    END IF;
+
+    IF num_slots_available < p_num_f_slots THEN
+        return QUERY SELECT 'not_enough_f_slots_available'::t_reservation_result_type, null;
+        return;
+    END IF;
+
+
+
 
     -- make sure random string isn't in database
     select f_unused_reservation_id() into v_reservation_id;
@@ -146,7 +174,19 @@ BEGIN
         select event_slot.slot_id from event_slot
         where event_slot.event_id = p_event_id
           and event_slot.reservation_id is null
-        order by event_slot.slot_id limit p_num_slots)
+          and event_slot.sex = 'M'
+        order by event_slot.slot_id limit p_num_m_slots)
+    update event_slot set reservation_id = v_reservation_id
+    FROM cte
+    where event_slot.event_id = p_event_id
+    and event_slot.slot_id = cte.id;
+
+    with cte(id) as (
+        select event_slot.slot_id from event_slot
+        where event_slot.event_id = p_event_id
+          and event_slot.reservation_id is null
+          and event_slot.sex = 'F'
+        order by event_slot.slot_id limit p_num_f_slots)
     update event_slot set reservation_id = v_reservation_id
     FROM cte
     where event_slot.event_id = p_event_id
@@ -157,20 +197,24 @@ BEGIN
 end;
     $$ LANGUAGE plpgsql;
 
-create or replace function f_available_slots_report() returns table (event_id integer, event_name text, slots_available bigint) as $$
+
+
+create or replace function f_available_slots_report() returns table (event_id integer, event_name text, slots_available_m bigint, slots_available_f bigint) as $$
     BEGIN
         return query
             select s.event_id
                  , e.name
-                 , count(*) as slots_available
+                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'M') as slots_available_m
+                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'F') as slots_available_f
             from event_slot s
             join event e on s.event_id = e.id
             where reservation_id is null
             group by s.event_id
                    , e.name
-            order by s.event_id;
-    end;
+            order by s.event_id;    end;
     $$ LANGUAGE plpgsql;
+
+
 
 -- create or replace function f_release_expired_event_slot_holds() returns void as $$
 --     BEGIN

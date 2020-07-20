@@ -56,10 +56,28 @@
 
           <div class="row form-group">
             <div class="col-md-4">
-              <label for="number_of_people">Number of People Attening (max 6)</label>
+              <label for="num_m">Number of Brothers Attending (max 6)</label>
             </div>
             <div class="col-md-4">
-                <select name="number_of_people" id="number_of_people">
+                <select name="num_m" id="num_m">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-4">
+              <label for="num_f">Number of Sisters Attending (max 6)</label>
+            </div>
+            <div class="col-md-4">
+                <select name="num_f" id="num_f">
+                    <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -77,7 +95,7 @@
             <div class="col-md-4">
                 <select name="event_id" id="event_id">
                     {% for slot in slots %}
-                    <option value="{{ slot.event_id }}">{{ slot.event_name }} - {{ slot.slots_available }} spots available</option>
+                    <option value="{{ slot.event_id }}">{{ slot.event_name }} - {{ slot.slots_available_m }} brother and {{ slot.slots_available_f }} sister spots available</option>
                     {% endfor %}
                 </select>
             </div>

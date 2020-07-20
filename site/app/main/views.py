@@ -48,7 +48,8 @@ def handle_successful_reservation(hash, slots):
     composite_path = path_to_execs + "/composite"
 
     the_uuid = hash["reservation_id"]
-    num_slots = hash["number_of_people"]
+    num_m = hash["num_m"]
+    num_f = hash["num_f"]
     uuid_str = "/tmp/" + the_uuid
     qrcode_file = uuid_str + ".png"
     qrcode_file_resized = uuid_str + ".resized.png"
@@ -94,7 +95,7 @@ def handle_successful_reservation(hash, slots):
                         working_dir + "/MontserratBlack-ZVK6J.otf",
                         '-size',
                         '{0}x{1}'.format(name_width, name_height),
-                        """caption:{0}""".format(hash["event_name"], num_slots),
+                        """caption:{0}""".format(hash["event_name"]),
                         qrcode_file_name])
         subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y), qrcode_file_name,
                         qrcode_file_grown, qrcode_file_composite])
@@ -104,7 +105,7 @@ def handle_successful_reservation(hash, slots):
                         working_dir + "/MontserratBlack-ZVK6J.otf",
                         '-size',
                         '{0}x{1}'.format(name_width, name_height),
-                        """caption:{0} spot{1} reserved""".format(num_slots, "s" if num_slots != 1 else ""),
+                        """caption:{0} brother{1}, {2} sister{3}""".format(num_m, "s" if num_m != 1 else "", num_f, "s" if num_f != 1 else ""),
                         qrcode_file_name])
         subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y+100), qrcode_file_name,
                         qrcode_file_composite, qrcode_file_composite])
@@ -159,10 +160,11 @@ def handle_successful_reservation(hash, slots):
 def handle_eid_form(form, cur, key):
     values = clean_form_input(form)
 
-    cur.execute("select * from f_reserve_slots(%s, %s, %s, %s, %s, %s, %s)",
+    cur.execute("select * from f_reserve_slots(%s, %s, %s, %s, %s, %s, %s, %s)",
                 (
                     values["event_id"]
-                    , values["number_of_people"]
+                    , values["num_m"]
+                    , values["num_f"]
                     , values["name"]
                     , values["phone"]
                     , values["email"]
@@ -193,9 +195,14 @@ def clean_form_input(form):
         values["event_id"] = 0
 
     try:
-        values["number_of_people"] = int(form.number_of_people.data)
+        values["num_m"] = int(form.num_m.data)
     except ValueError:
-        values["number_of_people"] = 0
+        values["num_m"] = 0
+
+    try:
+        values["num_f"] = int(form.num_f.data)
+    except ValueError:
+        values["num_f"] = 0
 
     return values
 
