@@ -175,3 +175,36 @@ def put_signin(p_id):
     cur.close()
     return jsonify({"result": "1"})
 
+
+@api.route('/redeemReservation', methods = ['POST'])
+def redeem_reservation():
+    obj = request.json
+    token = request.headers.get('token')
+    if token == None or auth(token) == None :
+        return unauthorized()
+    key = current_app.config.get('DB_KEY')
+    if key == None :
+        return key_failure()
+
+
+    the_uuid = obj.get("uuid")
+    if the_uuid is None:
+        return bad_request()
+
+    morf = obj.get("morf")
+    if morf != 'F':
+        morf = 'M'
+
+    cur = get_cursor()
+
+    cur.execute("SELECT * FROM f_redeem_reservation(%s, %s, %s)", (the_uuid, morf, key))
+    row = cur.fetchone()
+
+    cur.close()
+    return jsonify(row)
+
+
+def bad_request():
+    response = jsonify({'message':'Bad Request'})
+    return response, 400
+

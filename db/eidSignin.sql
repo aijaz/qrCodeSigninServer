@@ -19,6 +19,8 @@ create table reservation
     , email bytea not null
 
 );
+create index i_reservation_id on reservation(id);
+
 
 CREATE TABLE event_slot
 (
@@ -197,6 +199,59 @@ BEGIN
 end;
     $$ LANGUAGE plpgsql;
 
+
+create or replace function f_redeem_reservation(p_uuid TEXT, p_morf t_sex, p_key text)
+    returns TABLE(result TEXT, name text, phone text, email text, num_slots int)
+    as $$
+        DECLARE
+            v_uuid TEXT;
+            v_found BOOLEAN;
+            i INTEGER;
+            num_slots INTEGER;
+        BEGIN
+            select id into v_uuid from reservation where id = p_uuid;
+            if not FOUND THEN
+                RETURN QUERY SELECT 'Reservation not found', '', '', '', 0;
+                RETURN;
+            end if;
+
+            select EXISTS INTO v_found (select sex from event_slot where reservation_id = p_uuid and sex != p_morf);
+            if v_found THEN
+                return query select 'Sex mismatch', '', '', '', 0;
+                return;
+            end if;
+
+            select COUNT(*) into num_slots from event_slot where reservation_id = p_uuid and sex = p_morf;
+            if num_slots = 0 THEN
+                return query select 'Slot not found', '', '', '', 0;
+                return;
+            end if;
+
+            select EXISTS into v_found (select id from covid_signin_sheet where reservation_id = p_uuid);
+            if v_found THEN
+                return query select 'Already redeemed', '', '', '', 0;
+                return;
+            end if;
+
+            FOR i IN 1..num_slots LOOP
+                INSERT INTO covid_signin_sheet (dt, name, phone, email, reservation_id)
+                    select current_timestamp
+                         , r.name
+                         , r.phone
+                         , r.email
+                         , r.id from reservation r where r.id = p_uuid;
+            END LOOP;
+
+            RETURN QUERY
+                SELECT 'Success'
+                     , pgp_sym_decrypt(r.name, p_key) as name
+                     , pgp_sym_decrypt(r.phone, p_key) as phone
+                     , pgp_sym_decrypt(r.email, p_key) as email
+                     , num_slots
+                from reservation r where r.id = p_uuid;
+
+        end;
+        $$ LANGUAGE plpgsql;
 
 
 create or replace function f_available_slots_report() returns table (event_id integer, event_name text, slots_available_m bigint, slots_available_f bigint) as $$

@@ -82,8 +82,10 @@ CREATE TABLE covid_signin_sheet
     , phone bytea NOT NULL
     , email bytea not null
     , morf t_sex not null default 'M'
+    , reservation_id text null
 );
 create index i_covid_signin_morf on covid_signin_sheet(morf);
+create index i_covid_signin_res on covid_signin_sheet(reservation_id);
 
 CREATE TABLE covid_qrcodes
 (
