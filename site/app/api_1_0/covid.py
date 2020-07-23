@@ -82,11 +82,24 @@ def in_person_scan():
     email = re.sub("[^a-zA-Z0-9_\-+@ .]", '', email)[:50]
     phone = re.sub("[^0-9 ()\-xX]", '', phone)[:18]
 
+    num_people = obj.get("num_people")
+    morf = obj.get("morf")
+
+    if num_people is None:
+        num_people = 1
+
+    if morf != 'F':
+        morf = 'M'
+
     cur = get_cursor()
-    cur.execute(
-        "SELECT f_covid_signin(%s, %s, %s, %s, %s) as uuid",
-        (scan_time, name, phone, email, key))
-    cur.fetchone()
+
+    for f in range(num_people):
+        cur.execute(
+            "SELECT f_covid_signin(%s, %s, %s, %s, %s, %s) as uuid",
+            (scan_time, name, phone, email, key, morf))
+        cur.fetchone()
+
+
     cur.close()
     return jsonify({"result": "1"})
 

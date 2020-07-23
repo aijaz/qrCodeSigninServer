@@ -204,11 +204,10 @@ create or replace function f_available_slots_report() returns table (event_id in
         return query
             select s.event_id
                  , e.name
-                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'M') as slots_available_m
-                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'F') as slots_available_f
+                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'M' and s2.reservation_id is null) as slots_available_m
+                 , (select count(*) from event_slot s2 where s2.event_id = s.event_id and s2.sex = 'F' and s2.reservation_id is null) as slots_available_f
             from event_slot s
             join event e on s.event_id = e.id
-            where reservation_id is null
             group by s.event_id
                    , e.name
             order by s.event_id;    end;

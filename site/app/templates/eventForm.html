@@ -56,28 +56,26 @@
 
           <div class="row form-group">
             <div class="col-md-4">
-              <label for="num_m">Number of Brothers Attending (max 6)</label>
+              <label for="for_whom">Is this signin for brothers or sisters?</label>
             </div>
             <div class="col-md-4">
-                <select name="num_m" id="num_m">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
+                You need to fill out a separate form for brothers and sisters. This is because the brothers will
+                use one QR code in the brothers' entrance,
+                and the sisters will use another QR code in the sisters' entrance.<br><br>
+
+                <select name="for_whom" id="for_whom">
+                    <option value="m">Brothers</option>
+                    <option value="f">Sisters</option>
                 </select>
             </div>
           </div>
 
           <div class="row form-group">
             <div class="col-md-4">
-              <label for="num_f">Number of Sisters Attending (max 6)</label>
+              <label for="num">Number Attending (max 6)</label>
             </div>
             <div class="col-md-4">
-                <select name="num_f" id="num_f">
-                    <option value="0">0</option>
+                <select name="num" id="num">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

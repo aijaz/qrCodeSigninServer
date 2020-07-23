@@ -100,12 +100,18 @@ def handle_successful_reservation(hash, slots):
         subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y), qrcode_file_name,
                         qrcode_file_grown, qrcode_file_composite])
 
+        people_string = ""
+        if num_f == 0:
+            people_string = "{0} brother{1}".format(num_m, "s" if num_m != 1 else "")
+        else:
+            people_string = "{0} sister{1}".format(num_f, "s" if num_f != 1 else "")
+
         subprocess.run([convert_path,
                         '-font',
                         working_dir + "/MontserratBlack-ZVK6J.otf",
                         '-size',
                         '{0}x{1}'.format(name_width, name_height),
-                        """caption:{0} brother{1}, {2} sister{3}""".format(num_m, "s" if num_m != 1 else "", num_f, "s" if num_f != 1 else ""),
+                        """caption:{0}""".format(people_string),
                         qrcode_file_name])
         subprocess.run([composite_path, '-geometry', '+{0}+{1}'.format(name_x, name_y+100), qrcode_file_name,
                         qrcode_file_composite, qrcode_file_composite])
@@ -194,15 +200,19 @@ def clean_form_input(form):
     except ValueError:
         values["event_id"] = 0
 
-    try:
-        values["num_m"] = int(form.num_m.data)
-    except ValueError:
-        values["num_m"] = 0
-
-    try:
-        values["num_f"] = int(form.num_f.data)
-    except ValueError:
+    if form.for_whom.data == 'f':
+        try:
+            values["num_f"] = int(form.num.data)
+        except ValueError:
+            values["num_f"] = 0
+        values ["num_m"] = 0
+    else:
+        try:
+            values["num_m"] = int(form.num.data)
+        except ValueError:
+            values["num_m"] = 0
         values["num_f"] = 0
+
 
     return values
 

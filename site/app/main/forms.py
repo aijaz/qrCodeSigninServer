@@ -13,6 +13,6 @@ class EventReservationForm(FlaskForm):
     name = StringField('Your Name', validators=[DataRequired()])
     phone_number = StringField("Your Phone Number", validators=[DataRequired()])
     email = StringField("Your email address")
-    num_m = StringField("Number of men attending", validators=[DataRequired()])
-    num_f = StringField("Number of men attending", validators=[DataRequired()])
+    num = StringField("Number of people attending", validators=[DataRequired()])
+    for_whom = StringField("Brothers or Sister", validators=[DataRequired()])
     event_id = StringField("Event ID", validators=[DataRequired()])

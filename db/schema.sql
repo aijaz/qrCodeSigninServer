@@ -81,7 +81,9 @@ CREATE TABLE covid_signin_sheet
     , name bytea NOT NULL
     , phone bytea NOT NULL
     , email bytea not null
+    , morf t_sex not null default 'M'
 );
+create index i_covid_signin_morf on covid_signin_sheet(morf);
 
 CREATE TABLE covid_qrcodes
 (
@@ -119,17 +121,20 @@ CREATE or replace function f_covid_signin(
   , p_phone varchar
   , p_email varchar
   , p_key varchar
+  , p_morf char(1)
 ) returns text as $$
 BEGIN
         INSERT INTO covid_signin_sheet(dt
     , name
     , phone
     , email
+    , morf
     )
     values (p_dt
     , pgp_sym_encrypt(p_name, p_key)
     , pgp_sym_encrypt(p_phone, p_key)
     , pgp_sym_encrypt(p_email, p_key)
+    , p_morf::t_sex
     );
     return '1';
 end;
