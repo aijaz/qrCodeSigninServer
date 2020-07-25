@@ -59,7 +59,10 @@ def handle_successful_reservation(hash, slots):
     qrcode_file_final = uuid_str + ".final.png"
     qrcode_file_warn = uuid_str + ".warn.png"
     api_version = "3"
-    qrcode_string = "+".join([api_version, the_uuid])
+    num = hash["num_m"]
+    if hash["morf"] == "F":
+        num = hash["num_f"]
+    qrcode_string = "+".join([api_version, the_uuid, hash["name"], hash["phone"], hash["email"], hash["morf"], "{0}".format(num)])
     redirect_url = "/eventImage/{0}".format(the_uuid)
 
     hash["event_name"] = ""
@@ -201,12 +204,14 @@ def clean_form_input(form):
         values["event_id"] = 0
 
     if form.for_whom.data == 'f':
+        values["morf"] = "F"
         try:
             values["num_f"] = int(form.num.data)
         except ValueError:
             values["num_f"] = 0
         values ["num_m"] = 0
     else:
+        values["morf"] = "M"
         try:
             values["num_m"] = int(form.num.data)
         except ValueError:

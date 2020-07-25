@@ -227,19 +227,20 @@ create or replace function f_redeem_reservation(p_uuid TEXT, p_morf t_sex, p_key
                 return;
             end if;
 
-            select EXISTS into v_found (select id from covid_signin_sheet where reservation_id = p_uuid);
+            select EXISTS into v_found (select id from covid_signin_sheet where reservation_id = p_uuid and deleted is false);
             if v_found THEN
                 return query select 'Already redeemed', '', '', '', 0;
                 return;
             end if;
 
             FOR i IN 1..num_slots LOOP
-                INSERT INTO covid_signin_sheet (dt, name, phone, email, reservation_id)
+                INSERT INTO covid_signin_sheet (dt, name, phone, email, reservation_id, morf)
                     select current_timestamp
                          , r.name
                          , r.phone
                          , r.email
-                         , r.id from reservation r where r.id = p_uuid;
+                         , r.id
+                         , p_morf from reservation r where r.id = p_uuid;
             END LOOP;
 
             RETURN QUERY

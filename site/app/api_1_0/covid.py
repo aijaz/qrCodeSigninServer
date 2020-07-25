@@ -42,7 +42,8 @@ def current_signins():
         , pgp_sym_decrypt(name, %s) as name
         , pgp_sym_decrypt(phone, %s) as phone
         , pgp_sym_decrypt(email, %s) as email
-        from covid_signin_sheet order by id desc limit %s
+        , morf
+        from covid_signin_sheet where deleted is false order by id desc limit %s
         """, (key, key, key, return_count))
     else:
         cur.execute(
@@ -50,12 +51,17 @@ def current_signins():
             , pgp_sym_decrypt(name, %s) as name 
             , pgp_sym_decrypt(phone, %s) as phone
             , pgp_sym_decrypt(email, %s) as email
-             from covid_signin_sheet where id < %s order by id desc limit %s
+            , morf
+             from covid_signin_sheet where id < %s and deleted is false order by id desc limit %s
             """,
             (key, key, key, less_than, return_count))
 
     rows = cur.fetchall()
     cur.close()
+
+    if row["result"] != "Success":
+        return bad_request(row["result"])
+
     return jsonify({"data": rows})
 
 
@@ -137,9 +143,8 @@ def delete_signin(p_id):
 
     cur = get_cursor()
     cur.execute(
-        "DELETE FROM covid_signin_sheet where id = %s",
+        "UPDATE covid_signin_sheet set deleted = true where id = %s",
         (p_id,))
-    cur.execute()
     cur.close()
     return jsonify({})
 
@@ -204,7 +209,7 @@ def redeem_reservation():
     return jsonify(row)
 
 
-def bad_request():
-    response = jsonify({'message':'Bad Request'})
+def bad_request(message="Bad Request"):
+    response = jsonify({'message':message})
     return response, 400
 
